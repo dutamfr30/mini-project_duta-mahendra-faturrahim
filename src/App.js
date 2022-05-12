@@ -14,9 +14,7 @@ function App() {
         <Route path="/rekomendasi" exact component={Rekomendasi} />
         {/* <Route path="/detail_rekomendasi" exact component={DetailRekomendasi} /> */}
         <Route path="/artikel" exact component={Artikel} />
-        <Route path="/rekomendasi/:nama_barang">
-          <DetailRekomendasi />
-        </Route>
+        <Route path="/rekomendasi/:nama_barang" exact component={DetailRekomendasi} />
       </Switch>
     </Router>
   );

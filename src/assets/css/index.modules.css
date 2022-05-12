@@ -149,7 +149,7 @@
     height: 45px;
     margin-bottom: 10px;
 }
-.buttonHapus{
+.buttonEdit{
     font-family: 'Bakbak One', serif;
     font-size: 16px !important;
     width: 66px;
@@ -165,8 +165,8 @@
     background-color: #ffffff;
 }
 .imgListArtikel{
-    width: 166px;
-    height: 229px;
+    width: 250px;
+    height: 230px;
 }
 .artikelH3{
     font-family: 'Bakbak One', serif;
