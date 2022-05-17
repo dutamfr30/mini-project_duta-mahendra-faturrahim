@@ -227,7 +227,7 @@ export default function Detail_Rekomendasi() {
                             <p className='commentListUser'>{comment.username}</p>
                             <p className='commentListText'>{comment.comment}</p>
                             <div onSubmit={handleUpdateComment} style={editMode}>
-                                <input type="text" placeholder='Comment...' onChange={update} className='me-4' required
+                                <input type="text" placeholder='Comment...' onChange={update} className='me-3' required
                                 />
                                 <a onClick={handleTutupInput}>
                                     <button className='btn buttonEdit me-1' onClick={() => handleUpdateComment(comment.comment)}>Ubah</button>

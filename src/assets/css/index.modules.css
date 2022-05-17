@@ -220,8 +220,8 @@
 .buttonEdit{
     font-family: 'Bakbak One', serif;
     font-size: 16px !important;
-    width: 66px;
-    height: 30px;
+    width: 15%;
+    height: auto;
     color: #ffffff !important;
     background-color: #42C2FF !important;
     border-radius: 20px !important;
