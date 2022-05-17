@@ -29,7 +29,7 @@ function Navbar() {
               <a className="nav-link navItem" href="/rekomendasi">Rekomendasi</a>
               <a className="nav-link navItem" href="/artikel">Artikel</a>
               <div className="d-flex align-items-center nav-link user px-3">
-                <a className='nameUser'>{user.username}</a>
+                <a href='' className='nameUser'>{user.username}</a>
                 <BoxArrowRight className='ms-2 logout' onClick={handleLogout} />
               </div>
           </div>
