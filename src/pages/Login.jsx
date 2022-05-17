@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '../store/userSlice';
 import Navbar from '../components/NavbarLogin';
@@ -12,7 +11,7 @@ export default function Login () {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        if (username == '' || password == '') {
+        if (username === '' || password === '') {
             alert('Username dan password harus diisi');
         } else {
             dispatch(

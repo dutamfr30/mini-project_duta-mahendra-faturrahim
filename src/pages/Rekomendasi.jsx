@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import { gql, useQuery, useMutation } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 import { Link } from 'react-router-dom';
 
 const GetBarangFilter = gql`
@@ -26,7 +26,7 @@ query MyQuery {
 `;
 
 export default function Rekomendasi() {
-    const {data: dataQuery, loading: loadingQuery, error: error} = useQuery(GetBarangFilter);
+    const {data: dataQuery, loading: loadingQuery, error} = useQuery(GetBarangFilter);
     const {data: dataQueryLampu, loading: loadingQueryLampu, error: errorLampu} = useQuery(GetBarangLampu);
     
     if (error) return <p>Error {console.error(error)}</p>;
@@ -81,9 +81,6 @@ export default function Rekomendasi() {
             </div>
         </div>
         <Footer />
-        {/* <Switch>
-            <Route path="/:id" children={Detail_Rekomendasi}/>
-        </Switch> */}
     </>
   )
 }

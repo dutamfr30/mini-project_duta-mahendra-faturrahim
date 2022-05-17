@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import '../assets/css/index.modules.css';
 import { logout, selectUser } from '../store/userSlice';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { BoxArrowRight } from 'react-bootstrap-icons';
   
 

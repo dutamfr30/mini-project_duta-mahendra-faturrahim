@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Home from "./pages";
 import Rekomendasi from './pages/Rekomendasi';
 import DetailRekomendasi from './pages/Detail_Rekomendasi';
 import Artikel from './pages/Artikel';
