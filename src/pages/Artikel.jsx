@@ -1,11 +1,14 @@
 import React from 'react';
-import Navbar from './Navbar';
-import Footer from './Footer';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default function Artikel() {
     const [data, setData] = useState('');
+
+
     useEffect(() => {
         const options = {
             method: 'GET',
@@ -17,13 +20,18 @@ export default function Artikel() {
           };
           
           axios.request(options).then(function (response) {
-              console.log(response.data);
-              setData(response.data);
+              console.log(response);
+              setData(response);
           }).catch(function (error) {
               console.error(error);
           });
-        } , [])
-    
+        }, [])
+    if (data === '')
+    return (
+        <div className='loading d-flex justify-content-center'>
+            <img src="https://firebasestorage.googleapis.com/v0/b/mini-project-ecc3a.appspot.com/o/Ellipsis-1s-200px%20(1).svg?alt=media&token=c57a0918-4b26-4ea6-9c34-94b25638bfff" alt="" />
+        </div>
+    );
 
   return (
     <>
@@ -35,52 +43,48 @@ export default function Artikel() {
             </div>
         </div>
         <div className='container mt-5'>
-            <hr className='lineArtikel'/>
-            {/* {data.data?.map((item, index) => (       
-                    <div className='row' key={index}>
-                        <div className='col-md-3'>
-                            <img src={item.data.imageURL} alt="" className='imgListArtikel mt-3'/>
+            {data?.data?.filter((item, index) => index >= 116 && index < 140 ).map((item) => (       
+                    <>
+                    <hr className='lineArtikel'/>
+                    <div className='row d-flex justify-content-center'>
+                        <div className='col-xl-3 col-lg-3 col-sm-12'>
+                            <img src={item.imageURL} alt="" className='imgListArtikel mt-3'/>
                         </div>
-                        <div className='col-md-9'>
-                            <a href={item.detailsUrl} className='linkArtikel'>
-                                <h3 className='artikelH3'>{item.name}</h3>
-                            </a>
+                        <div className='mt-4 mb-3 col-xl-9 col-lg-9 col-sm-12'>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <p className='artikelP'>Name</p>
+                                    </td>
+                                    <td>
+                                        <p className='artikelPIsi'>: {item.name}</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p className='artikelP'>Taxonomy</p>
+                                    </td>
+                                    <td>
+                                        <p className='artikelPIsi'>: {item.taxonomy}</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p className='artikelP'>Size</p>
+                                    </td>
+                                    <td>
+                                        <p className='artikelPIsi'>: {item.size}</p>
+                                    </td>
+                                </tr>
+                            </table> 
+                            <div className='d-flex justify-content-center'>
+                                <a href={item.detailsUrl} className='btn artikelButton'>Artikel</a>
+                            </div>                         
                         </div>
                     </div>
+                    </>
             )
-            )} */}
-            <div className='row'>
-                <div className='col-md-3'>
-                    <img src={data[2].imageURL} alt="" className='imgListArtikel mt-3'/>
-                </div>
-                <div className='col-md-9'>
-                    <a href={data[2].detailsUrl} className='linkArtikel'>
-                        <h3 className='artikelH3'>{data[2].name}</h3>
-                    </a>
-                </div>
-            </div>
-            {/* <hr className='lineArtikel'/>
-            <div className='row'>
-                <div className='col-md-3'>
-                    <img src={data[4].imageURL} alt="" className='imgListArtikel mt-3'/>
-                </div>
-                <div className='col-md-9'>
-                    <a href={data[4].detailsUrl} className='linkArtikel'>
-                        <h3 className='artikelH3'>{data[4].name}</h3>
-                    </a>
-                </div>
-            </div>
-            <hr className='lineArtikel'/>
-            <div className='row'>
-                <div className='col-md-3'>
-                    <img src={data[5].imageURL} alt="" className='imgListArtikel mt-3'/>
-                </div>
-                <div className='col-md-9'>
-                    <a href={data[5].detailsUrl} className='linkArtikel'>
-                        <h3 className='artikelH3'>{data[5].name}</h3>
-                    </a>
-                </div>
-            </div> */}
+            )}
             
         </div>
         <Footer />

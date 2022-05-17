@@ -1,10 +1,11 @@
 import React from 'react';
-import Navbar from './Navbar';
-import Footer from './Footer';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import htmr from 'htmr';
 
 
 const GetBarang = gql`
@@ -91,10 +92,10 @@ export default function Detail_Rekomendasi() {
     if (error) return <p>Error {console.error(error)}</p>;
     if (loadingQueryBarang || loadingQueryComment || loadingComment || loadingDelete || loadingUpdate)
     return (
-        <p>
-            Loading
-        </p>
-    )
+        <div className='loading d-flex justify-content-center'>
+            <img src="https://firebasestorage.googleapis.com/v0/b/mini-project-ecc3a.appspot.com/o/Ellipsis-1s-200px%20(1).svg?alt=media&token=c57a0918-4b26-4ea6-9c34-94b25638bfff" alt="" />
+        </div>
+    );
 
     const handleChangeComment = (e) => {
         setDataComment({
@@ -167,7 +168,7 @@ export default function Detail_Rekomendasi() {
     };
 
   return (
-    <>
+      <>
         <Navbar />
         <div className="container">
             <div className="text-center">
@@ -175,15 +176,19 @@ export default function Detail_Rekomendasi() {
             <h3 className="homeH3">Perlengkapan Tank/Aquarium</h3>
             </div>
             <div>
-            {dataQueryBarang?.detail_rekomendasi.filter(filter => filter.nama_barang === params.nama_barang).map(filter => (
+                {console.log(dataQueryBarang)}
+                
+            {dataQueryBarang?.detail_rekomendasi.filter(barang => barang.nama_barang === params.nama_barang).map(barang => (
                 <>
-                    <div className='row mt-5'>
-                        <div className='col-6'>
-                            <img src={filter.gambar_barang} alt="" className='detailFoto'/>
+                {console.log("ini barang=",barang.nama_barang)}
+                {console.log("paramsnya=",params.nama_barang)}
+                    <div className='row mt-3'>
+                        <div className='col-xl-6 col-lg-6 col-sm-12 mt-3'>
+                            <img src={barang.gambar_barang} alt="" className='detailFoto'/>
                         </div>
-                        <div className='col-6'>
-                            <h4 className='homeH4'>{filter.nama_barang}</h4>
-                            <p className='detailP'>{filter.spesifikasi_barang}</p>
+                        <div className='col-xl-6 col-lg-6 col-sm-12 mt-3'>
+                            <h4 className='homeH4'>{barang.nama_barang}</h4>
+                            <p className='detailP'>{htmr(barang.spesifikasi_barang)}</p>
                             {/* <h6 className='homeH6'> 
                             Spesifikasi:
                             </h6>
@@ -197,48 +202,48 @@ export default function Detail_Rekomendasi() {
                         </div>
                     </div>
                     <div className='d-flex justify-content-center mt-5 '>
-                        <a href={filter.link_pembelian} className="btn buttonBarang">Link Pembelian</a>
+                        <a href={barang.link_pembelian} className="btn buttonBarang">Link Pembelian</a>
                     </div>
                 </>
             ))}
             </div>
 
             <hr className='line my-5' />
-            <div className='row d-flex justify-content-center'>
-            <div className='col-5 me-5 comment'>
-                    <p className='commentP'>Comment</p>
-                    <form action="" onSubmit={handleSubmitComment}>
-                        <input type="text" placeholder='Username...' className='d-block mb-3 inputComment' value={dataComment.username} name="username" onChange={handleChangeComment}/>
-                        <textarea id="" cols="30" rows="10" placeholder='Type your comment...' className='inputComment typeComment' value={dataComment.comment} name="comment" onChange={handleChangeComment} ></textarea>
-                        <div className='m-2 d-flex justify-content-end'>
-                            <button className="btn buttonComment" onClick={handleSubmitComment}>Send</button>
+            <div className='row container d-flex justify-content-evenly'>
+                <div className='col-xl-5 col-lg-5 col-sm-12 mt-3 comment'>
+                        <p className='commentP'>Comment</p>
+                        <form action="" onSubmit={handleSubmitComment}>
+                            <input type="text" placeholder='Username...' className='d-block mb-3 inputComment' value={dataComment.username} name="username" onChange={handleChangeComment}/>
+                            <textarea id="" cols="30" rows="10" placeholder='Type your comment...' className='inputComment typeComment' value={dataComment.comment} name="comment" onChange={handleChangeComment} ></textarea>
+                            <div className='m-2 d-flex justify-content-end'>
+                                <button className="btn buttonComment" onClick={handleSubmitComment}>Send</button>
+                            </div>
+                        </form>
+                    </div>
+                <div className='col-xl-5 col-lg-5 col-sm-12 mt-3 comment'>
+                        <p className='commentP'>Last Comment</p>
+                        <div className='commentItem'>
+                        {dataQueryComment?.comment_user.filter(comment => comment.nama_barang === params.nama_barang).map((comment) => (
+                            <div className='p-2 mt-3 commentList d-block'>
+                            <p className='commentListUser'>{comment.username}</p>
+                            <p className='commentListText'>{comment.comment}</p>
+                            <div onSubmit={handleUpdateComment} style={editMode}>
+                                <input type="text" placeholder='Comment...' onChange={update} className='me-4' required
+                                />
+                                <a onClick={handleTutupInput}>
+                                    <button className='btn buttonEdit me-1' onClick={() => handleUpdateComment(comment.comment)}>Ubah</button>
+                                </a>
+                                <button className='btn buttonEdit me-1' onClick={() => handleDeleteComment(comment.id_comment)}>Hapus</button>
+                                <button className='btn buttonEdit' onClick={handleTutupInput}>Selesai</button>
+                            </div>
+                            <div className='d-flex justify-content-end'>
+                                <button className='btn buttonEdit me-1' style={viewMode} onClick={handleBukaInput}>Edit</button>
+                            </div>
                         </div>
-                    </form>
-                </div>
-            <div className='col-5 ms-5 comment'>
-                    <p className='commentP'>Last Comment</p>
-                    <div className='commentItem'>
-                    {dataQueryComment?.comment_user.filter(comment => comment.nama_barang === params.nama_barang).map((comment) => (
-                        <div className='p-2 mt-3 commentList d-block'>
-                        <p className='commentListUser'>{comment.username}</p>
-                        <p className='commentListText'>{comment.comment}</p>
-                        <div onSubmit={handleUpdateComment} style={editMode}>
-                            <input type="text" placeholder='Comment...' onChange={update} className='me-4' required
-                            />
-                            <a onClick={handleTutupInput}>
-                                <button className='btn buttonEdit me-1' onClick={() => handleUpdateComment(comment.comment)}>Ubah</button>
-                            </a>
-                            <button className='btn buttonEdit me-1' onClick={() => handleDeleteComment(comment.id_comment)}>Hapus</button>
-                            <button className='btn buttonEdit' onClick={handleTutupInput}>Selesai</button>
-                        </div>
-                        <div className='d-flex justify-content-end'>
-                            <button className='btn buttonEdit me-1' style={viewMode} onClick={handleBukaInput}>Edit</button>
+                        ))}
                         </div>
                     </div>
-                    ))}
-                    </div>
                 </div>
-            </div>
         </div>
         <Footer />
     </>

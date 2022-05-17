@@ -1,12 +1,12 @@
 import React from 'react';
-import Navbar from './Navbar';
-import Footer from './Footer';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { Link } from 'react-router-dom';
 
 const GetBarangFilter = gql`
 query MyQuery {
-    barang_rekomendasi(where: {kategori: {_eq: "filter"}}) {
+    barang_rekomendasi(order_by: {id_barang: asc_nulls_first}, where: {kategori: {_eq: "filter"}}) {
       gambar_barang
       id_barang
       kategori
@@ -16,7 +16,7 @@ query MyQuery {
 `;
 const GetBarangLampu = gql`
 query MyQuery {
-    barang_rekomendasi(where: {kategori: {_eq: "lampu"}}) {
+    barang_rekomendasi(order_by: {id_barang: asc_nulls_first}, where: {kategori: {_eq: "lampu"}}) {
       gambar_barang
       id_barang
       kategori
@@ -32,9 +32,9 @@ export default function Rekomendasi() {
     if (error) return <p>Error {console.error(error)}</p>;
     if (loadingQuery || loadingQueryLampu)
     return (
-        <p>
-            Loading
-        </p>
+        <div className='loading d-flex justify-content-center'>
+            <img src="https://firebasestorage.googleapis.com/v0/b/mini-project-ecc3a.appspot.com/o/Ellipsis-1s-200px%20(1).svg?alt=media&token=c57a0918-4b26-4ea6-9c34-94b25638bfff" alt="" />
+        </div>
     )
     console.info("data", dataQuery);
     console.info("dataLampu", dataQueryLampu);
@@ -51,11 +51,11 @@ export default function Rekomendasi() {
                 <h4 className='homeH4 mt-5 mb-3'>Filter Aquarium:</h4>
                 <div className='row d-flex justify-content-center'>
                     {dataQuery?.barang_rekomendasi.map((filter) => (
-                        <div className='col-3 mt-4'>
+                        <div className='d-flex justify-content-center col-xl-3 col-lg-3 col-sm-12 mt-4'>
                             <div className="card cardBarang shadow p-3 bg-body rounded">
                             <h5 className="card-title text-center namaBarang">{filter.nama_barang}</h5>
                             <img src={filter.gambar_barang} className="card-img-top imgBarang" alt="..." />
-                            <div className="card-body">
+                            <div className="card-body d-flex justify-content-between">
                                 <Link to={`/rekomendasi/${filter.nama_barang}`} className="btn buttonBarang">Lihat</Link>
                             </div>
                             </div>
@@ -67,7 +67,7 @@ export default function Rekomendasi() {
                 <h4 className='homeH4 mt-5 mb-3'>Lampu Aquarium:</h4>
                 <div className='row d-flex justify-content-center'>
                 {dataQueryLampu?.barang_rekomendasi.map((lampu) => (
-                    <div className='col-3 mt-4'>
+                    <div className='d-flex justify-content-center col-xl-3 col-lg-3 col-sm-12 mt-4'>
                         <div className="card cardBarang shadow p-3 bg-body rounded">
                         <h5 className="card-title text-center namaBarang">{lampu.nama_barang}</h5>
                         <img src={lampu.gambar_barang} className="card-img-top imgBarang" alt="..." />
@@ -76,7 +76,7 @@ export default function Rekomendasi() {
                         </div>
                     </div>
                     </div>
-                ))};
+                ))}
                 </div>
             </div>
         </div>
@@ -87,16 +87,3 @@ export default function Rekomendasi() {
     </>
   )
 }
-
-
-// function Detail_Rekomendasi() {
-//     let {id} = useParams();
-//     return (
-//         <div>
-//             <h1>Detail Rekomendasi</h1>
-//             <p>
-//                 {id}
-//             </p>
-//         </div>
-//     )
-// }
